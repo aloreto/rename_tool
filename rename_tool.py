@@ -42,7 +42,9 @@ def renameObject(object, objectNewName):
 
 # loop evaluate and rename the list selection
 
-def renameListOfObjects(selection):
+def renameListOfObjects(*args):
+
+    selection = cmds.ls(sl=True)
 
     item_counter = 0
 
@@ -71,6 +73,49 @@ def renameListOfObjects(selection):
 
             item_counter = item_counter + 1
 
+
+def test():
+    print 'test'
+
+
+
+
+
+#_________________________________________________________________________________________
+
+# --------------------------------------window ui------------------------------------------
+
+#
+renameTool_window = cmds.window()
+cmds.columnLayout()
+cmds.rowColumnLayout( numberOfColumns=2, columnAttach=(1, 'right', 0), columnWidth=[(1, 100), (2, 250)] )
+cmds.text( label='Name' )
+name = cmds.textField()
+cmds.text( label='sufix_geo')
+sufix_geo_field = cmds.textField(text='geo' )
+cmds.text( label='sufix_group' )
+sufix_group_field = cmds.textField(text='grp' )
+cmds.text( label='side' )
+side_field = cmds.textField(text='C' )
+cmds.setParent('..')
+
+cmds.columnLayout()
+cmds.button( label='Rename', command= renameListOfObjects, width = 350)
+cmds.separator(h=30, width = 350)
+cmds.text( label='Side suffix replacer', width=350, align= 'center' )
+cmds.setParent('..')
+
+cmds.rowColumnLayout( numberOfColumns=2, columnAttach=(1, 'right', 0), columnWidth=[(1, 175), (2, 175)] )
+currentLetterField= cmds.textField()
+cmds.text( label='current side letter')
+cmds.setParent('..')
+
+cmds.columnLayout()
+cmds.button( label='Rename Side Letter', command= test, width = 350)
+cmds.setParent('..')
+
+
+cmds.showWindow( renameTool_window )
 
 
 
