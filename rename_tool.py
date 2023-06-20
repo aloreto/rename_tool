@@ -24,16 +24,6 @@ import rename_tool
 
 import maya.cmds as cmds
 
-
-# defining the variables for the name structure
-
-obj_name = 'pepito'
-sufix_group = 'grp'
-sufix_geo = 'geo'
-side = 'L'
-
-
-
 # rename function
 
 def renameObject(object, objectNewName):
@@ -44,7 +34,14 @@ def renameObject(object, objectNewName):
 
 def renameListOfObjects(*args):
 
+    # defining the variables for the name structure
+
     selection = cmds.ls(sl=True)
+    obj_name = cmds.textField(name_field, query=True, text=True)
+    sufix_group = cmds.textField(sufix_group_field, query=True, text=True)
+    sufix_geo = cmds.textField(sufix_geo_field, query=True, text=True)
+    side = cmds.textField(side_field, query=True, text=True)
+
 
     item_counter = 0
 
@@ -90,7 +87,7 @@ renameTool_window = cmds.window()
 cmds.columnLayout()
 cmds.rowColumnLayout( numberOfColumns=2, columnAttach=(1, 'right', 0), columnWidth=[(1, 100), (2, 250)] )
 cmds.text( label='Name' )
-name = cmds.textField()
+name_field = cmds.textField(text='name' )
 cmds.text( label='sufix_geo')
 sufix_geo_field = cmds.textField(text='geo' )
 cmds.text( label='sufix_group' )
