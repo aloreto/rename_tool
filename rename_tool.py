@@ -19,6 +19,7 @@ import sys
 sys.path.append('C:/Users/agust/OneDrive/01_TINTO/DOCUMENTS/maya/scripts/rename_tool')
 
 import rename_tool
+reload (rename_tool)
 
 '''
 
@@ -43,7 +44,7 @@ def renameListOfObjects(*args):
     side = cmds.textField(side_field, query=True, text=True)
 
 
-    item_counter = 0
+    item_counter = 1
 
     for object in selection:
 
@@ -71,19 +72,43 @@ def renameListOfObjects(*args):
             item_counter = item_counter + 1
 
 
-def test():
-    print 'test'
+def replaceSideLetter(*args):
 
+    selection = cmds.ls(sl=True)
+    newSideLetter = cmds.textField(currentLetterField, query=True, text=True)
+    print newSideLetter
 
+    for object in selection:
+        nameParts = object.split('_')
+        current_sideLetter = nameParts[2]
+        name_newSideLetter = '{}_{}_{}_{}'.format(nameParts[0], nameParts[1], newSideLetter, nameParts[3])
+
+        renameObject(object, name_newSideLetter)
 
 
 
 #_________________________________________________________________________________________
+'''
 
 # --------------------------------------window ui------------------------------------------
+# Note: The tool is setup by stacking different types of layouts bellow each other.
+# All layouts live under a main column layout (the first one after the creation of the window)
+# The cmds.setParent('..')  line parents each layout bellow the main columnlayout. This is needed so each control
+# or widget is placed in the proper layout as desired. If not, the next widget will be parented based 
+# on the previous layout
+#------------------------------------------------------------------------------------------------
+'''
 
-#
-renameTool_window = cmds.window()
+
+
+# checking if the window UI exists
+
+if cmds.window(renameTool_window, exists=True):
+    cmds.deleteUI(renameTool_window)
+
+# Setting the window variable and naming
+renameTool_window = cmds.window('Rename tool')
+
 cmds.columnLayout()
 cmds.rowColumnLayout( numberOfColumns=2, columnAttach=(1, 'right', 0), columnWidth=[(1, 100), (2, 250)] )
 cmds.text( label='Name' )
@@ -103,12 +128,12 @@ cmds.text( label='Side suffix replacer', width=350, align= 'center' )
 cmds.setParent('..')
 
 cmds.rowColumnLayout( numberOfColumns=2, columnAttach=(1, 'right', 0), columnWidth=[(1, 175), (2, 175)] )
-currentLetterField= cmds.textField()
-cmds.text( label='current side letter')
+cmds.text( label='current side letter', width=175)
+currentLetterField= cmds.textField(width=175)
 cmds.setParent('..')
 
 cmds.columnLayout()
-cmds.button( label='Rename Side Letter', command= test, width = 350)
+cmds.button( label='Rename Side Letter', command= replaceSideLetter, width = 350)
 cmds.setParent('..')
 
 
