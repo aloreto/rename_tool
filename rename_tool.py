@@ -76,7 +76,7 @@ def replaceSideLetter(*args):
 
     selection = cmds.ls(sl=True)
     newSideLetter = cmds.textField(currentLetterField, query=True, text=True)
-    print newSideLetter
+    print (newSideLetter)
 
     for object in selection:
         nameParts = object.split('_')
@@ -99,7 +99,8 @@ def replaceSideLetter(*args):
 #------------------------------------------------------------------------------------------------
 '''
 
-
+# Setting the window variable and naming
+renameTool_window = cmds.window('Rename tool')
 
 # checking if the window UI exists
 
